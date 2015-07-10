@@ -26,6 +26,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Paperclip is intended as an easy file attachment library for Active Record
 gem 'paperclip', '~> 4.2.1'
 
+#Add width, height, and size to paperclip images.
+gem 'paperclip-meta', '~>1.1.0'
+
 # A generalized Rack framework for multiple-provider authentication.
 gem "omniauth", "~> 1.2.2"
 
