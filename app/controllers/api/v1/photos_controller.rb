@@ -28,6 +28,25 @@ module Api
         end
       end
 
+      def event_photos
+        margin = 10
+        lista = []
+        @photos = []
+        all_photos = Photo.where(1)
+        first_photo = all_photos.first
+        all_photos.each do |photo|
+          if photo.taked_at >= first_photo.taked_at and photo.taked_at < first_photo.taked_at + 60 * margin
+            lista << photo
+          else
+            @photos << lista
+            first_photo = photo
+            lista = []
+            lista << photo
+          end
+        end
+        @photos << lista
+      end
+
       private
         def set_photo
           @photo = Photo.find(params[:id])

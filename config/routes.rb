@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :login_sessions, only: [:create]
-      resources :photos
+      resources :photos do
+        collection do
+          get :event_photos
+        end
+      end
       resources :contacts do
         collection do
           post :add

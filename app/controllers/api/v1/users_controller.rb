@@ -46,7 +46,7 @@ module Api
       	user.accept_terms_and_conditions
         # relacion muchos a mucho usuarios
         # asignar amigos de fb dentro de la app al usuario
-        # user.save_contacts
+        user.save_contacts
       	render json: { success: true }, status: 200
       end
 
