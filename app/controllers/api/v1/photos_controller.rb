@@ -44,9 +44,9 @@ module Api
       end
 
       private
-        def set_photo
-          @photo = Photo.find(params[:id])
-        end
+        # def set_photo
+        #   @photo = Photo.find(params[:id])
+        # end
 
         def photo_params
           params.permit(:event_id, :images, :user_id, :taked_at)

@@ -14,7 +14,7 @@ module Api
         numPending = Invitation.numPending(params[:user_id])
         render json: { success: true, count: numPending }, status: 200
       end
-      
+
     end
   end
 end

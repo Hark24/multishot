@@ -1,7 +1,7 @@
 module Api
   module V1
     class UsersController < ApiV1Controller
-      
+
       def create
         email = params[:user][:email]
         unless email.blank?
@@ -12,25 +12,22 @@ module Api
           if authentication
             account = Authentication.where(authentication.permit(:provider, :uid)).first_or_initialize
             # new_friend = true if account.oauth_token.blank?
-            account.oauth_token = authentication[:oauth_token]
-            account.oauth_token_expires_at = Time.now + authentication[:oauth_token_expires_at].to_i.seconds
+            account.set_oauth_token(authentication)
             user.assign_attributes(fb_user_params)
             user.avatar = "https://graph.facebook.com/#{account.uid}/picture?type=large"
           end
 
           if user.valid?
-            p user
             user.save
             user.send_welcome_email unless authentication
             if account
-              account.user_id = user.id
-              account.save
+              account.save_data(user.id)
               # if new_friend
               #   user.subscriptions.create(subscribable_type: "Activities::NewFBFriend", subscribable_id: 1)
               # end
-              @account = account
+              # @account = account
             end
-            @user = user
+            # @user = user
             render json: { success: true }, status: 200
           else
             Rails.logger.info user.errors.inspect
@@ -73,11 +70,10 @@ module Api
         else
           @users = @current_user.users.find_text(text)
         end
-        render template: "api/v1/contacts/index"
+        render "api/v1/contacts/index"
       end
 
       private
-      
         def user_params
           params.permit(:email)
         end
@@ -85,7 +81,7 @@ module Api
         def fb_user_params
           params[:user].permit(:first_name, :last_name, :email, :avatar)
         end
-      
+
     end
   end
 end

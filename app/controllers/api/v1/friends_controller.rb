@@ -27,14 +27,14 @@ module Api
       #       graph = Koala::Facebook::GraphAPI.new(current_user.authentications.first.oauth_token)
       #       fb_friends = graph.get_connections("me", "taggable_friends").sort_by{ |u| u["name"] }
       #       render json: fb_friends
-      #     rescue Exception => e 
+      #     rescue Exception => e
       #       render json: { message: e.message }
       #     end
       #   else
       #     render json: { message: "The user doesn't have a facebook account" }
       #   end
       # end
-      
+
     end
   end
 end

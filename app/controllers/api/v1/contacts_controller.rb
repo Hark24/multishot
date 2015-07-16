@@ -1,7 +1,7 @@
 module Api
   module V1
     class ContactsController < ApiV1Controller
-      
+
       def create
         @contact = Contact.new(contact_params)
         if @contact.save
@@ -20,7 +20,7 @@ module Api
             new_contact = Contact.new(user_1_id: params[:user_id], user_2_id: user_id)
             new_contact_2 = Contact.new(user_2_id: params[:user_id], user_1_id: user_id)
             contacts << new_contact
-            contacts << new_contact_2 
+            contacts << new_contact_2
           end
         end
 

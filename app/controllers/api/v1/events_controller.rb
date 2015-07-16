@@ -14,13 +14,13 @@ module Api
         @event.invitations.new(user_id: params[:user_id], state: 1)
         if @event.permission.eql?("public")
           @users.each do |user|
-            @event.invitations.new(user_id: user.id, state: 0)
+            @event.send_invitations(user.id)
           end
         else
           contacts = JSON.parse(params[:contacts])
           contacts.each do |contact_id|
             if(contact_id != user.id)
-              @event.invitations.new(user_id: contact_id, state: 0)
+              @event.send_invitations(contact_id)
             end
           end
         end
@@ -59,7 +59,7 @@ module Api
           text = "%#{params[:q]}%"
           @events = Event.find_to_active(text, params[:user_id])
         end
-        render template: "api/v1/events/index"
+        render "api/v1/events/index"
       end
 
       private

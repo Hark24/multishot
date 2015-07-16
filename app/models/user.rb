@@ -22,9 +22,9 @@ class User < ActiveRecord::Base
     self.save
   end
 
-  def self.all_except user_id
-    where.not(id: user_id)
-  end
+  # def self.all_except user_id
+  #   where.not(id: user_id)
+  # end
 
   def facebook_friends
     unless self.authentications.first.nil?
@@ -42,25 +42,32 @@ class User < ActiveRecord::Base
     users = new_contacts.uniq
   end
 
-  def self.from_omniauth auth
-    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name = auth.info.name
-      user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-      user.save!
-    end
-  end
+  # def self.from_omniauth auth
+  #   where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+  #     user.provider = auth.provider
+  #     user.uid = auth.uid
+  #     user.name = auth.info.name
+  #     user.oauth_token = auth.credentials.token
+  #     user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+  #     user.save!
+  #   end
+  # end
 
   def send_welcome_email
     generate_new_password
     ManageMailer.user_created(self).deliver
   end
 
+  def invalid_password password
+    authentication = authentications.first
+    !password_digest.blank? && !authenticate(password) && authentication.nil?
+  end
+
   def confirm_account
-    self.confirmed = true
-    self.save
+    if confirmed
+      self.confirmed = true
+      self.save
+    end
   end
 
   def generate_new_password

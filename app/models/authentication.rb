@@ -16,4 +16,14 @@ class Authentication < ActiveRecord::Base
     self.oauth_token_expires_at = Time.now + new_token['expires'].to_i.seconds
     self.save
   end
+
+  def set_oauth_token authentication
+    oauth_token = authentication[:oauth_token]
+    oauth_token_expires_at = Time.now + authentication[:oauth_token_expires_at].to_i.seconds
+  end
+
+  def save_data user_id
+    user_id = user.id
+    save
+  end
 end

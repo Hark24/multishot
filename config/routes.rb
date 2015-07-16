@@ -2,20 +2,20 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :login_sessions, only: [:create]
-      resources :photos do
+      resources :photos, only: [:create, :destroy, :index] do
         collection do
           get :event_photos
         end
       end
-      resources :contacts do
+      resources :contacts, only: [:create] do
         collection do
           post :add
         end
       end
       resource  :me, controller: "me" do
-        resources :authentications
+        resources :authentications, only: [:create]
       end
-      resources :users do
+      resources :users, only: [:create] do
         collection do
           post :exist
           put :accept_terms_conditions
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
           post :add_contacts
         end
       end
-      resources :events do 
+      resources :events, only: [:show, :create, :index] do
         collection do
           # post :changeActive
           get :search

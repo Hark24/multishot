@@ -6,7 +6,7 @@ module Api
         current_user.authentications.create(params[:authentication].permit!)
         render json: { success: true }
       end
-      
+
     end
   end
 end

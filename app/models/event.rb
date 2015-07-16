@@ -6,17 +6,17 @@ class Event < ActiveRecord::Base
   ACTIVE = true
   INACTIVE = false
 
-  def self.actives
-  	self.where(active: ACTIVE)
-  end
+  # def self.actives
+  # 	self.where(active: ACTIVE)
+  # end
 
   def self.find_for_state state, user_id
   	self.where(invitations: {:state => state, :user_id => user_id}).order(created_at: :desc)
   end
 
-  def self.invitations_to user_id
-  	self.where(invitations: {user_id: user_id})
-  end
+  # def self.invitations_to user_id
+  # 	self.where(invitations: {user_id: user_id})
+  # end
 
   def self.search_event_name text
   	self.where("name like ? ", "%#{text}%")
@@ -26,9 +26,9 @@ class Event < ActiveRecord::Base
   	self.select("events.*").joins(:invitations)
   end
 
-  def self.my_events user_id
-  	self.where(user_id: user_id)
-  end
+  # def self.my_events user_id
+  # 	self.where(user_id: user_id)
+  # end
 
   def self.find_to_active text, user
     sql = "SELECT events.* FROM events INNER JOIN invitations
@@ -38,6 +38,10 @@ class Event < ActiveRecord::Base
     SELECT events.* FROM events WHERE (name like ?) AND events.user_id = ?
     ORDER BY 5 DESC"
     self.find_by_sql([sql, text, user, text, user])
+  end
+
+  def send_invitations user_id
+    invitations.new(user_id: user_id, state: 0)
   end
 
 end
