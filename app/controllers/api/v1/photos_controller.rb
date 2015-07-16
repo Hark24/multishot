@@ -9,14 +9,10 @@ module Api
 
       def create
         @photo = Photo.new(photo_params)
-        if @photo.event.active
-          if @photo.save
-            render json: { success: true, message: "La foto fue subida correctamente" }
-          else
-            render json: { success: false, message: "Hubo un problema al subir la foto" }, status: 400
-          end
+        if @photo.save
+          render json: { success: true, message: "La foto fue subida correctamente" }
         else
-          render json: { success: false, message: "Este evento no esta activado." }, status: 400
+          render json: { success: false, message: "Hubo un problema al subir la foto" }, status: 400
         end
       end
 
@@ -32,7 +28,7 @@ module Api
         margin = 10
         lista = []
         @photos = []
-        all_photos = Photo.where(1)
+        all_photos = Photo.where(event_id: params[:event_id])
         first_photo = all_photos.first
         all_photos.each do |photo|
           if photo.taked_at >= first_photo.taked_at and photo.taked_at < first_photo.taked_at + 60 * margin
