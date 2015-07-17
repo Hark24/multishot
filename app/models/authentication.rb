@@ -23,7 +23,7 @@ class Authentication < ActiveRecord::Base
   end
 
   def save_data user_id
-    user_id = user.id
+    user_id = user_id
     save
   end
 end

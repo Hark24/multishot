@@ -81,7 +81,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_user text, id
-    self.where("first_name LIKE ? OR last_name LIKE ? OR email LIKE ? AND id != ?", text, text, text, id)
+    self.where("(first_name LIKE ? OR last_name LIKE ? OR email LIKE ?) AND id != ?", text, text, text, id)
   end
 
   def self.find_text text

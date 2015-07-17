@@ -19,7 +19,7 @@ module Api
         else
           contacts = JSON.parse(params[:contacts])
           contacts.each do |contact_id|
-            if(contact_id != user.id)
+            if(contact_id !=  params[:user_id])
               @event.send_invitations(contact_id)
             end
           end
